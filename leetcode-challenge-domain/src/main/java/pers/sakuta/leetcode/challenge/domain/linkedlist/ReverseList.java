@@ -20,20 +20,22 @@ public class ReverseList {
 
     /**
      * 迭代方式实现
-     * @param node
+     * @param head
      * @return
      */
-    public static Node reverse(Node node) {
-        Node preNext = node.next;
-        Node last = null;
-        while (preNext != null) {
-            node.setNext(last);
-            last = node;
-            node = preNext;
-            preNext = preNext.next;
+    public static Node reverse(Node head) {
+        Node prev = null;
+        Node current = head;
+        Node next = null;
+
+        while (current != null) {
+            next = current.next;    // 保存下一个节点
+            current.next = prev;    // 反转当前节点的指针
+            prev = current;         // 移动prev指针
+            current = next;         // 移动current指针
         }
-        node.setNext(last);
-        return node;
+
+        return prev; // prev现在是新的头节点
     }
 
 
@@ -62,7 +64,17 @@ public class ReverseList {
             node = node.next;
         }
         System.out.println();
-//        node = reverse(head);
+
+        // 测试迭代方式翻转
+        node = reverse(head);
+        while (node != null) {
+            System.out.printf(String.valueOf(node.getVal()));
+            node = node.next;
+        }
+        System.out.println();
+
+        // 重新初始化链表并测试递归方式翻转
+        head = initLinkedList();
         node = recursion(head);
         while (node != null) {
             System.out.printf(String.valueOf(node.getVal()));
